@@ -1,0 +1,64 @@
+#Memory storage application
+
+#Import modules section
+import pickle
+import time
+
+#Stylistic variables section.
+l_a = 'Loading.    [   ]'
+l_b = 'Loading..   [-  ]'
+l_c = 'Loading...  [-- ]'
+l_d = 'Loading...  [---]'
+
+#Functions
+
+class pkj:
+    def __init__(self,x,y):
+        self.x = x
+        self.y = y
+
+def main():
+    db = {}
+    a = 0
+    session_counter = []
+    session_key = input('Please enter your session key: ')
+    session_key_token = f'{time.time()}_{session_key}'
+    while a == 0:
+        menu = input('Enter a command: ')
+        if menu == 'add':
+            memAdd = input('Enter some data, fool: ')
+            #19.1128 - compile command?  Research this for potential use on this section.
+            db[f'{time.time()}'] = memAdd
+        elif menu == 'store':
+            #19.1128 - Consider putting a try function here.
+            try:
+                print(l_a)
+                time.sleep(1)
+                session_save = input('New file name: ')
+                print(l_b)
+                time.sleep(1)
+                db_file = open(f'{session_save}', 'ab')
+                print(l_c)
+                time.sleep(1)
+                print(l_d)
+                pickle.dump(db, db_file)
+                time.sleep(1)
+                db_file.close()
+            except:
+                time.sleep(1)
+                print('An error occurred.')
+        elif menu == 'load':
+            db_file = open(f'{session_key}', 'rb')
+            db = pickle.load(db_file)
+            for keys in db_file:
+                print(keys, '=>', db[keys])
+            db_file.close()
+        elif menu == 'view':
+            print(db)
+        elif menu == 'delete':
+            pass
+        elif menu == 'quit':
+            a += 1
+
+if __name__ == '__main__':
+    main()
